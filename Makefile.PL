@@ -2,19 +2,19 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
+          'PL_FILES' => {},
+          'INSTALLDIRS' => 'site',
           'NAME' => 'Test::Most',
+          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Test/Most.pm',
           'PREREQ_PM' => {
-                           'Exception::Class' => '1.14',
-                           'Test::Deep' => '0',
-                           'Test::Differences' => '0',
-                           'Test::Exception' => '0',
                            'Test::Harness' => '3.07',
+                           'Test::Exception' => 0,
                            'Test::Simple' => '0.82',
-                           'Test::Warn' => '0.1'
-                         },
-          'INSTALLDIRS' => 'site',
-          'EXE_FILES' => [],
-          'PL_FILES' => {}
+                           'Exception::Class' => '1.14',
+                           'Test::Differences' => 0,
+                           'Test::Warn' => '0.1',
+                           'Test::Deep' => 0
+                         }
         )
 ;
