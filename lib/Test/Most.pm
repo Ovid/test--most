@@ -34,11 +34,11 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.21_01
+Version 0.21_02
 
 =cut
 
-our $VERSION = '0.21_01';
+our $VERSION = '0.21_02';
 
 =head1 SYNOPSIS
 
