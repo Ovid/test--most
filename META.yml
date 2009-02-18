@@ -15,6 +15,7 @@ requires:
   Test::Harness: 3.07
   Test::More: 0.82
   Test::Warn: 0.1
+  Test::use::ok: 0.02
   perl: 5.006
 recommends:
   Data::Dumper::Names: 0.03

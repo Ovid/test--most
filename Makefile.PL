@@ -14,6 +14,7 @@ WriteMakefile
                            'Test::More' => '0.82',
                            'Test::Differences' => 0,
                            'Test::Warn' => '0.1',
+                           'Test::use::ok' => '0.02',
                            'Test::Deep' => 0
                          }
         )

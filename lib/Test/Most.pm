@@ -239,6 +239,17 @@ will restore the original behavior (not throwing an exception or bailing out).
 The C<die_on_fail> and C<bail_on_fail> functions will automatically set the
 desired behavior at runtime.
 
+=head2 Environment variables
+
+ DIE_ON_FAIL=1 prove t/
+ BAIL_ON_FAIL=1 prove t/
+
+If the C<DIE_ON_FAIL> or C<BAIL_ON_FAIL> environment variables are true, any
+tests which use C<Test::Most> will throw an exception or call BAIL_OUT on test
+failure.
+
+=head1 MISCELLANEOUS
+
 =head2 Deferred plans
 
  use Test::Most qw<defer_plan>;
@@ -259,14 +270,32 @@ you I<ran> is the number of tests.  Until now, there was no way of asserting
 that the number of tests you I<expected> is the number of tests unless you do
 so before any tests have run.  This fixes that problem.
 
-=head2 Environment variables
+=head2 C<use ok>
 
- DIE_ON_FAIL=1 prove t/
- BAIL_ON_FAIL=1 prove t/
+We now bundle L<Test::use::ok>.  Rather than justify this, I'll just quote the
+description from that module:
 
-If the C<DIE_ON_FAIL> or C<BAIL_ON_FAIL> environment variables are true, any
-tests which use C<Test::Most> will throw an exception or call BAIL_OUT on test
-failure.
+According to the B<Test::More> documentation, it is recommended to run
+C<use_ok()> inside a C<BEGIN> block, so functions are exported at
+compile-time and prototypes are properly honored.
+
+That is, instead of writing this:
+
+    use_ok( 'Some::Module' );
+    use_ok( 'Other::Module' );
+
+One should write this:
+
+    BEGIN { use_ok( 'Some::Module' ); }
+    BEGIN { use_ok( 'Other::Module' ); }
+
+However, people often either forget to add C<BEGIN>, or mistakenly group
+C<use_ok> with other tests in a single C<BEGIN> block, which can create subtle
+differences in execution order.
+
+With this module, simply change all C<use_ok> in test scripts to C<use ok>,
+and they will be executed at C<BEGIN> time.  The explicit space after C<use>
+makes it clear that this is a single compile-time action.
 
 =head1 RATIONALE
 

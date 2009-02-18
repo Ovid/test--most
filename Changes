@@ -1,6 +1,9 @@
 Revision history for Test::Most
 
 0.21_01
+        - Include Test::use::ok in deps.  No code changes, but it' a useful
+          and important module (nuffin in
+          https://rt.cpan.org/Ticket/Display.html?id=38090)
         - Have explain() depend on Test::More::note() (patch from Schwern)
         - Depend on Test::More directly (patch from Scwhern)
 
