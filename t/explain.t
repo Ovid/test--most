@@ -10,8 +10,7 @@ use Data::Dumper;
 no warnings 'redefine';
 
 my @EXPLAIN;
-local *Test::More::diag = sub { @EXPLAIN = @_ };
-local $ENV{TEST_VERBOSE} = 1;
+local *Test::More::note = sub { @EXPLAIN = @_ };
 explain 'foo';
 eq_or_diff \@EXPLAIN, ['foo'], 'Basic explain() should work just fine';
 

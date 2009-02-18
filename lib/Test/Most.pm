@@ -130,10 +130,10 @@ of how C<Test::Builder> has been designed.
 
 =head2 C<explain>
 
-Similar to C<diag()>, but only outputs the message if C<$ENV{TEST_VERBOSE}> is
-set.  This is typically set by using the C<-v> switch with C<prove>.
+Similar to C<note()>, the output will only be seen by the user by
+using the C<-v> switch with C<prove> or reading the raw TAP.
 
-Unlike C<diag()>, any reference in the argument list is autumatically expanded
+Unlike C<note()>, any reference in the argument list is automatically expanded
 using C<Data::Dumper>.  Thus, instead of this:
 
  my $self = Some::Object->new($id);
@@ -157,7 +157,8 @@ C<$Indent>, C<Sortkeys> and C<Terse> all set to the value of C<1> (one).  This
 allows for a much cleaner diagnostic output and at the present time cannot be
 overridden.
 
-Requires C<Test::Harness> 3.07 or greater.
+Note that Test::More's C<explain> acts differently.  This C<explain>
+is equivalent to C<note explain> in Test::More.
 
 =head2 C<show>
 
@@ -374,8 +375,7 @@ sub import {
 }
 
 sub explain {
-    return unless $ENV{TEST_VERBOSE};
-    Test::More::diag(
+    Test::More::note(
         map {
             ref $_
               ? do {
@@ -391,7 +391,6 @@ sub explain {
 }
 
 sub show {
-    return unless $ENV{TEST_VERBOSE};
     unless ( $DATA_DUMPER_NAMES_INSTALLED ) {
         warn "Data::Dumper::Names 0.03 not found.  Use explain() instead of show()";
         goto &explain;
@@ -400,7 +399,7 @@ sub show {
     local $Data::Dumper::Indent         = 1;
     local $Data::Dumper::Sortkeys       = 1;
     local $Data::Dumper::Names::UpLevel = $Data::Dumper::Names::UpLevel + 1;
-    Test::More::diag(Data::Dumper::Names::Dumper(@_));
+    Test::More::note(Data::Dumper::Names::Dumper(@_));
 }
 
 sub die_on_fail {

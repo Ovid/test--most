@@ -1,6 +1,7 @@
 Revision history for Test::Most
 
-0.21
+0.21_01
+        - Have explain() depend on Test::More::note() (patch from Schwern)
         - Depend on Test::More directly (patch from Scwhern)
 
 0.21    2009-02-18

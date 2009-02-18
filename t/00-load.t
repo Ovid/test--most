@@ -16,7 +16,7 @@ BEGIN {
       Test::Differences
       Test::Exception
       Test::Harness
-      Test::Simple
+      Test::More
       Test::Warn
     );
     foreach my $module (@dependencies) {
