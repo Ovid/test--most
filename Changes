@@ -1,5 +1,8 @@
 Revision history for Test::Most
 
+0.21
+        - Depend on Test::More directly (patch from Scwhern)
+
 0.21    2009-02-18
         - No changes.  Update version for release.
 
