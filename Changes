@@ -1,0 +1,50 @@
+Revision history for Test::Most
+
+0.20_02 2008-11-26
+        - Make sure tests don't fail if optional Data::Dumper::Names
+          dependency is not met.
+
+0.20_01 2008-11-25
+        - Added &show.  Like &explain, but tries to show variable names.
+
+0.20    2008-11-06
+        - If a test dies because die_on_fail() or 'Test::Most qw(die)' is
+          triggered, we now throw a 'Test::Most::Exception' rather than simply
+          dieing.  This makes it easier for software to understand what's
+          happening if this is trapped in an eval.
+        - Have t/00-load.t report dependency versions since CPAN testers does
+          not reliably do this.
+        - Move some tests to xt/author to ensure that spurious failures don't
+          cause CPAN install issues.
+
+0.12    2008-10-15
+        - Make sure we don't get redef warnings with Test::Builder 0.82.
+        - Expose &set_failure_handler to people can customize it more.
+
+0.11    2008-07-29
+        - explain() now automatically uses Data::Dumper on references.
+
+0.10    2008-07-22
+        - Rename internal keys to begin with TEST_MOST_ instead of XXX_.
+        - Rework tests to be slightly less comprehensive but more likely to
+          pass (removed the otherwise lovely Test::Command until we can figure
+          out what's up with it).
+
+0.04   2008-06-19
+        - Forget to add Test::Warn to Build.pl :)
+
+0.03   2008-06-18
+        - Remembered to add t/defer_plan.t to the manifest.  D'oh!
+
+0.02    2008-06-18
+        - Fixed Perl version in Build.PL to avoid problems with smoke testers
+          skipping this test.
+        - Added Test::Warn support (suggestion from benh).
+        - Fixed bug whereby Test::Deep tests were not exported.  Whoops! :)
+        - Add deferred plans.  Thanks to barefootcoder++ (Buddy Burden) for
+          this.
+        - Added build dependency on Test::Command (nice module!)
+
+0.01    2008-01-13
+        - Use the most common test features.
+
