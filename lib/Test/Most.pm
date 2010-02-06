@@ -47,10 +47,10 @@ Instead of this:
 
     use strict;
     use warnings;
-    use Test::Exception;
-    use Test::Differences;
-    use Test::Deep;
-    use Test::Warn;
+    use Test::Exception 0.88;
+    use Test::Differences 0.500;
+    use Test::Deep 0.106;
+    use Test::Warn 0.11;
     use Test::More tests => 42;
 
 You type this:
@@ -60,7 +60,10 @@ You type this:
 =head1 DESCRIPTION
 
 L<Test::Most> exists to reduce boilerplate and to make your testing life
-easier.
+easier.  We provide "one stop shopping" for most commonly used testing
+modules.  In fact, we often require the latest versions so that you get bug
+fixes through L<Test::Most> and don't have to keep upgrading these modules
+separately.
 
 This module provides you with the most commonly used testing functions, along
 with automatically turning on strict and warning and gives you a bit more
