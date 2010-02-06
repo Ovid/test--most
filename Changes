@@ -1,5 +1,11 @@
 Revision history for Test::Most
 
+0.21_04 2010-02-06
+        - Give people the ability to exclude test modules in case of
+          conflicts.  This is to resolve: "Prototype mismatch: sub
+          main::blessed ($) vs none" error with Moose and Test::Deep.  See
+          https://rt.cpan.org/Ticket/Display.html?id=54362&results=e73ff63c5bf9ba0f796efdba5773cf3f
+
 0.21_03 2010-02-06
         - Bump up dependency on Test::Builder.  Need that for done_testing()
           and to deprecate all_done().

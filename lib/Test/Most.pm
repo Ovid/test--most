@@ -17,10 +17,6 @@ BEGIN {
     @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
     Test::More->import;
 }
-use Test::Differences;
-use Test::Exception;
-use Test::Deep;
-use Test::Warn;
 
 use Test::Builder;
 my $OK_FUNC;
@@ -34,11 +30,11 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.21_03
+Version 0.21_04
 
 =cut
 
-our $VERSION = '0.21_03';
+our $VERSION = '0.21_04';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -286,6 +282,22 @@ failure.
 
 =head1 MISCELLANEOUS
 
+=head1 Excluding Test Modules
+
+Sometimes you want a exclude a particular test module.  For example,
+L<Test::Deep>, when used with L<Moose>, produces the following warning:
+
+    Prototype mismatch: sub main::blessed ($) vs none
+
+You can exclude this with by adding the module to the import list with a '-'
+symbol in front:
+
+    use Test::Most tests => 42, '-Test::Deep';
+
+See
+L<https://rt.cpan.org/Ticket/Display.html?id=54362&results=e73ff63c5bf9ba0f796efdba5773cf3f>
+for more information.
+
 =head2 Deferred plans
 
 B<DEPRECATED>.  Use C<done_testing()> from L<Test::More> instead.
@@ -371,11 +383,6 @@ BEGIN {
     @ISA    = qw(Test::Builder::Module);
     @EXPORT = (
         @Test::More::EXPORT, 
-        @Test::Differences::EXPORT,
-        @Test::Exception::EXPORT,
-        @Test::Differences::EXPORT,
-        @Test::Deep::EXPORT,
-        @Test::Warn::EXPORT,
         qw<
             all_done
             bail_on_fail
@@ -387,23 +394,17 @@ BEGIN {
             show
         >
     );
-
-    if ( Test::Differences->VERSION <= 0.47 ) {
-
-        # XXX There's a bug in Test::Differences 0.47 which attempts to render
-        # an AoH in a cleaner 'table' format.
-        # http://rt.cpan.org/Public/Bug/Display.html?id=29732
-        no warnings 'redefine';
-        *Test::Differences::_isnt_HASH_of_scalars = sub {
-            return 1 if ref ne "HASH";
-            return scalar grep ref, values %$_;
-        };
-    }
 }
 
 sub import {
     my $bail_set = 0;
 
+    my %modules_to_load = map { $_ => 1 } qw/
+        Test::Differences
+        Test::Exception
+        Test::Deep
+        Test::Warn
+    /;
     warnings->import;
     strict->import;
     eval "use Data::Dumper::Names 0.03";
@@ -424,31 +425,54 @@ sub import {
             last;
         }
     }
-    for my $i ( 0 .. $#_ ) {
+    my $i = 0;
+    while ($i < @_) {
         if ( !$bail_set and ( 'die' eq $_[$i] ) ) {
             splice @_, $i, 1;
             die_on_fail();
-            last;
+            $i = 0;
+            next;
         }
-    }
-    for my $i ( 0 .. $#_ ) {
-       if ( 'defer_plan' eq $_[$i] ) {
+        if ( $_[$i] =~ /^-(.*)/ ) {
+            my $module = $1;
+            splice @_, $i, 1;
+            unless (exists $modules_to_load{$module}) {
+                require Carp;
+                Carp::croak("Cannot remove non-existent Test::Module ($module)");
+            }
+            delete $modules_to_load{$module};
+            $i = 0;
+            next;
+        }
+        if ( 'defer_plan' eq $_[$i] ) {
             splice @_, $i, 1;
 
-           my $builder = Test::Builder->new;
-           $builder->{Have_Plan} = 1; # don't like setting this directly, but Test::Builder::has_plan doe
-           $builder->{TEST_MOST_deferred_plan} = 1;
-           $builder->{TEST_MOST_all_done} = 0;
-
-           last;
-       }
-   }
+            my $builder = Test::Builder->new;
+            $builder->{Have_Plan} = 1
+              ; # don't like setting this directly, but Test::Builder::has_plan doe
+            $builder->{TEST_MOST_deferred_plan} = 1;
+            $builder->{TEST_MOST_all_done}      = 0;
+            $i = 0;
+            next;
+        }
+        $i++;
+    }
+    foreach my $module (keys %modules_to_load) {
+        eval "use $module";
+        no strict 'refs';
+        push @EXPORT => @{"${module}::EXPORT"};
+        if ( my $error = $@) {
+            require Carp;
+            Carp::croak($error);
+        }
+    }
 
     # 'magic' goto to avoid updating the callstack
     goto &Test::Builder::Module::import;
 }
 
 sub explain {
+    no warnings 'once';
     Test::More::note(
         map {
             ref $_

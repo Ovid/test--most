@@ -13,7 +13,7 @@ name: Test-Most
 provides:
   Test::Most:
     file: lib/Test/Most.pm
-    version: 0.21_03
+    version: 0.21_04
   Test::Most::Exception:
     file: lib/Test/Most/Exception.pm
     version: 0.21_02
@@ -31,4 +31,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/Ovid/test--most
-version: 0.21_03
+version: 0.21_04
