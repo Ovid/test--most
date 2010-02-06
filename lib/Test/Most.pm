@@ -59,6 +59,9 @@ You type this:
 
 =head1 DESCRIPTION
 
+L<Test::Most> exists to reduce boilerplate and to make your testing life
+easier.
+
 This module provides you with the most commonly used testing functions, along
 with automatically turning on strict and warning and gives you a bit more
 fine-grained control over your test suite.
@@ -72,6 +75,14 @@ fine-grained control over your test suite.
 
 As you can see, the C<eq_or_diff> test will fail.  Because 'die' is in the
 import list, the test program will halt at that point.
+
+If you do not want strict and warnings enabled, you must explicitly disable
+them.  Thus, you must be explicit about what you want and no longer need to
+worry about accidentally forgetting them.
+
+    use Test::Most tests => 4;
+    no strict;
+    no warnings;
 
 =head1 EXPORT
 
