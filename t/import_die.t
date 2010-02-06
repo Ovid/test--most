@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-use strict;
-use warnings;
-
 use lib 'lib',            't/lib';
 use Test::Most 'die', tests => 7;
 use OurTester qw($DIED dies);

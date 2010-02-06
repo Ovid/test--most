@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-use strict;
-use warnings;
-
 use lib 'lib', 't/lib';
 BEGIN { $ENV{BAIL_ON_FAIL} = 1 }
 use Test::Most tests => 7;

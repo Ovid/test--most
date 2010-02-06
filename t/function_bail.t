@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-use strict;
-use warnings;
-
 use lib 'lib',            't/lib';
 use Test::Most 'no_plan';#tests => 7;
 use OurTester qw($BAILED bails);

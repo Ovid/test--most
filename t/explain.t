@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-use strict;
-use warnings;
-
 use lib 'lib', 't/lib';
 use Test::Most tests => 4;
 use Data::Dumper;
