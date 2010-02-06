@@ -9,13 +9,12 @@ my $builder = Module::Build->new(
     dist_version_from => 'lib/Test/Most.pm',
     requires          => {
         'Exception::Class'  => 1.14,
-        'Test::More'        => 0.82,
+        'Test::More'        => 0.88,
         'Test::Exception'   => 0,
         'Test::Differences' => 0,
         'Test::Deep'        => 0,
         'Test::Harness'     => 3.07,
-        'Test::use::ok'     => 0.02,
-        'Test::Warn'        => 0.10,
+        'Test::Warn'        => 0.11,
         'perl'              => '5.006',
     },
     recommends => {
