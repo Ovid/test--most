@@ -1,11 +1,21 @@
 Revision history for Test::Most
 
-0.21_02
-        - Include Test::use::ok in deps.  No code changes, but it' a useful
-          and important module (nuffin in
-          https://rt.cpan.org/Ticket/Display.html?id=38090)
+0.21_03 2010-02-06
+        - Bump up dependency on Test::Builder.  Need that for done_testing()
+          and to deprecate all_done().
+        - Remove strict and warnings from tests since they no longer need them
+          :)
+        - Decided to bump up the minimum version number for all test modules.
+          This module should be "one stop shopping" for most people.
+        - Moderately significant POD update.
 
-0.21_01 2008-02-18
+0.21_02 2010-02-06
+        - Import strict an warnings.
+        - Increase version requirement for
+          https://rt.cpan.org/Ticket/Display.html?id=44790  Thanks to Gerda
+          Shank for that.
+
+0.21_01 2009-02-18
         - Have explain() depend on Test::More::note() (patch from Schwern)
         - Depend on Test::More directly (patch from Scwhern)
 

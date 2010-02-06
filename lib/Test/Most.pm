@@ -34,16 +34,34 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.21_02
+Version 0.21_03
 
 =cut
 
-our $VERSION = '0.21_02';
+our $VERSION = '0.21_03';
+$VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
 
-This module provides you with the most commonly used testing functions and
-gives you a bit more fine-grained control over your test suite.
+Instead of this:
+
+    use strict;
+    use warnings;
+    use Test::Exception;
+    use Test::Differences;
+    use Test::Deep;
+    use Test::Warn;
+    use Test::More tests => 42;
+
+You type this:
+
+    use Test::Most tests => 42;
+
+=head1 DESCRIPTION
+
+This module provides you with the most commonly used testing functions, along
+with automatically turning on strict and warning and gives you a bit more
+fine-grained control over your test suite.
 
     use Test::Most tests => 4, 'die';
 
@@ -192,6 +210,10 @@ find a workaround for this.
 
 =head2 C<all_done>
 
+B<DEPRECATED>.  Use the new C<done_testing()> (added in
+L<Test::More|Test::More> since 0.87_01).  Instead. We're leaving this in here
+for a long deprecation cycle.  After a while, we might even start warning.
+
 If the plan is specified as C<defer_plan>, you may call C<&all_done> at the
 end of the test with an optional test number.  This lets you set the plan
 without knowing the plan before you run the tests.
@@ -252,6 +274,8 @@ failure.
 
 =head2 Deferred plans
 
+B<DEPRECATED>.  Use C<done_testing()> from L<Test::More> instead.
+
  use Test::Most qw<defer_plan>;
  use My::Tests;
  my $test_count = My::Tests->run;
@@ -270,32 +294,22 @@ you I<ran> is the number of tests.  Until now, there was no way of asserting
 that the number of tests you I<expected> is the number of tests unless you do
 so before any tests have run.  This fixes that problem.
 
+=head2 One-stop shopping
+
+We generally require the latest stable versions of various test modules.  Why?
+Because they have bug fixes and new features.  You don't want to have to keep
+remembering them, so periodically we'll release new versions of L<Test::Most>
+just for bug 
+
 =head2 C<use ok>
 
-We now bundle L<Test::use::ok>.  Rather than justify this, I'll just quote the
-description from that module:
+We do not bundle L<Test::use::ok>, though it's been requested.  That's because
+C<use_ok> is broken, but L<Test::use::ok> is also subtly broken (and a touch
+harder to fix).  See L<http://use.perl.org/~Ovid/journal/39859> for more
+information.
 
-According to the B<Test::More> documentation, it is recommended to run
-C<use_ok()> inside a C<BEGIN> block, so functions are exported at
-compile-time and prototypes are properly honored.
-
-That is, instead of writing this:
-
-    use_ok( 'Some::Module' );
-    use_ok( 'Other::Module' );
-
-One should write this:
-
-    BEGIN { use_ok( 'Some::Module' ); }
-    BEGIN { use_ok( 'Other::Module' ); }
-
-However, people often either forget to add C<BEGIN>, or mistakenly group
-C<use_ok> with other tests in a single C<BEGIN> block, which can create subtle
-differences in execution order.
-
-With this module, simply change all C<use_ok> in test scripts to C<use ok>,
-and they will be executed at C<BEGIN> time.  The explicit space after C<use>
-makes it clear that this is a single compile-time action.
+If you want to test if you can use a module, just use it.  If it fails, the
+test will still fail and that's the desired result.
 
 =head1 RATIONALE
 
@@ -304,23 +318,38 @@ hundreds of tests failing and whizzing by, you want the test suite to simply
 halt on the first failure.  This module gives you that control.
 
 As for the reasons for the four test modules chosen, I ran code over a local
-copy of the CPAN to find the most commonly used testing modules.  Here were
-the top ten (out of 287):
+copy of the CPAN to find the most commonly used testing modules.  Here's the
+top twenty as of January 2010 (the numbers are different because we're now
+counting distributions which use a given module rather than simply the number
+of times a module is used).
 
- Test::More              44461
- Test                     8937
- Test::Exception          1379
- Test::Simple              731
- Test::Base                316
- Test::Builder::Tester     193
- Test::NoWarnings          174
- Test::Differences         146
- Test::MockObject          139
- Test::Deep                127
+    1   Test::More                          14111
+    2   Test                                 1736
+    3   Test::Exception                       744
+    4   Test::Simple                          331
+    5   Test::Pod                             328
+    6   Test::Pod::Coverage                   274
+    7   Test::Perl::Critic                    248
+    8   Test::Base                            228
+    9   Test::NoWarnings                      155
+    10  Test::Distribution                    142
+    11  Test::Kwalitee                        138
+    12  Test::Deep                            128
+    13  Test::Warn                            127
+    14  Test::Differences                     102
+    15  Test::Spelling                        101
+    16  Test::MockObject                       87
+    17  Test::Builder::Tester                  84
+    18  Test::WWW::Mechanize::Catalyst         79
+    19  Test::UseAllModules                    63
+    20  Test::YAML::Meta                       61
 
-The four modules chosen seemed the best fit for what C<Test::Most> is trying
-to do.  As of 0.02, we've added L<Test::Warn> by request.  It's not in the top
-ten, but it's a great and useful module.
+L<Test::Most> is number 24 on that list, if you're curious.  See
+L<http://blogs.perl.org/users/ovid/2010/01/most-popular-testing-modules---january-2010.html>.
+
+The modules chosen seemed the best fit for what C<Test::Most> is trying to do.
+As of 0.02, we've added L<Test::Warn> by request.  It's not in the top ten, but
+it's a great and useful module.
 
 =cut
 
@@ -361,6 +390,8 @@ BEGIN {
 sub import {
     my $bail_set = 0;
 
+    warnings->import;
+    strict->import;
     eval "use Data::Dumper::Names 0.03";
     $DATA_DUMPER_NAMES_INSTALLED = !$@;
 
@@ -512,9 +543,11 @@ Curtis Poe, C<< <ovid at cpan.org> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-test-extended at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Most>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to C<bug-test-extended at
+rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Most>.  I will be
+notified, and then you'll automatically be notified of progress on your bug as
+I make changes.
 
 =head1 SUPPORT
 

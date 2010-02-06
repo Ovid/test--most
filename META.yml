@@ -1,32 +1,33 @@
 ---
-name: Test-Most
-version: 0.21_01
+abstract: 'Most commonly needed test functions and features.'
 author:
   - 'Curtis Poe <ovid@cpan.org>'
-abstract: Most commonly needed test functions and features.
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3601'
 license: perl
-resources:
-  license: http://dev.perl.org/licenses/
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Test-Most
+provides:
+  Test::Most:
+    file: lib/Test/Most.pm
+    version: 0.21_03
+  Test::Most::Exception:
+    file: lib/Test/Most/Exception.pm
+    version: 0.21_02
+recommends:
+  Data::Dumper::Names: 0.03
 requires:
   Exception::Class: 1.14
   Test::Deep: 0
   Test::Differences: 0
   Test::Exception: 0
   Test::Harness: 3.07
-  Test::More: 0.82
-  Test::Warn: 0.1
-  Test::use::ok: 0.02
+  Test::More: 0.88
+  Test::Warn: 0.11
   perl: 5.006
-recommends:
-  Data::Dumper::Names: 0.03
-provides:
-  Test::Most:
-    file: lib/Test/Most.pm
-    version: 0.21_01
-  Test::Most::Exception:
-    file: lib/Test/Most/Exception.pm
-    version: 0.21_01
-generated_by: Module::Build version 0.2808
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.21_03
