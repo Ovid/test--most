@@ -7,9 +7,9 @@ WriteMakefile
           'VERSION_FROM' => 'lib/Test/Most.pm',
           'PREREQ_PM' => {
                            'Exception::Class' => '1.14',
-                           'Test::Deep' => 0,
-                           'Test::Differences' => 0,
-                           'Test::Exception' => 0,
+                           'Test::Deep' => '0.106',
+                           'Test::Differences' => '0.500',
+                           'Test::Exception' => '0.29',
                            'Test::Harness' => '3.07',
                            'Test::More' => '0.88',
                            'Test::Warn' => '0.11'
