@@ -90,15 +90,15 @@ your namespace:
 
 =over 4
 
-=item * C<Test::More>
+=item * L<Test::More>
 
-=item * C<Test::Exception>
+=item * L<Test::Exception>
 
-=item * C<Test::Differences>
+=item * L<Test::Differences>
 
-=item * C<Test::Deep> 
+=item * L<Test::Deep> 
 
-=item * C<Test::Warn>
+=item * L<Test::Warn>
 
 =back
 
