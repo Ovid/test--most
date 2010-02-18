@@ -1,5 +1,8 @@
 Revision history for Test::Most
 
+0.22
+        - Apply doc fixes from ranguard. Thanks :)
+
 0.21_04 2010-02-06
         - Give people the ability to exclude test modules in case of
           conflicts.  This is to resolve: "Prototype mismatch: sub

@@ -12,11 +12,12 @@ Test::Most::Exception - Internal exception class
 
 =head1 VERSION
 
-Version 0.21_02
+Version 0.22
 
 =cut
 
-our $VERSION = '0.21_02';
+our $VERSION = '0.22';
+$VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
 
