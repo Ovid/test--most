@@ -1,6 +1,6 @@
 Revision history for Test::Most
 
-0.22
+0.22    2010-08-07
         - Added always_explain() and always_show().
         - Apply doc fixes from ranguard. Thanks :)
 
