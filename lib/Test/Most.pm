@@ -218,6 +218,12 @@ only show the names for lexical variables.  Globals such as C<%ENV> or C<%@>
 are not accessed via PadWalker and thus cannot be shown.  It would be nice to
 find a workaround for this.
 
+=head2 C<always_explain> and C<always_show>
+
+These are identical to C<explain> and C<show>, but like L<Test::More>'s
+C<diag> function, these will always emit output, regardless of whether or not
+you're in verbose mode.
+
 =head2 C<all_done>
 
 B<DEPRECATED>.  Use the new C<done_testing()> (added in
@@ -388,10 +394,12 @@ BEGIN {
             bail_on_fail
             die_on_fail
             explain
+            always_explain
             last_test_failed
             restore_fail
             set_failure_handler
             show
+            always_show
         >
     );
 }
@@ -472,8 +480,17 @@ sub import {
 }
 
 sub explain {
+    _explain(\&Test::More::note, @_);
+}
+
+sub always_explain {
+    _explain(\&Test::More::diag, @_);
+}
+
+sub _explain {
+    my $diag = shift;
     no warnings 'once';
-    Test::More::note(
+    $diag->(
         map {
             ref $_
               ? do {
@@ -489,15 +506,24 @@ sub explain {
 }
 
 sub show {
+    _show(\&Test::More::note, @_);
+}
+
+sub always_show {
+    _show(\&Test::More::diag, @_);
+}
+
+sub _show {
     unless ( $DATA_DUMPER_NAMES_INSTALLED ) {
         warn "Data::Dumper::Names 0.03 not found.  Use explain() instead of show()";
-        goto &explain;
+        goto &_explain;
     }
+    my $diag = shift;
     no warnings 'once';
     local $Data::Dumper::Indent         = 1;
     local $Data::Dumper::Sortkeys       = 1;
-    local $Data::Dumper::Names::UpLevel = $Data::Dumper::Names::UpLevel + 1;
-    Test::More::note(Data::Dumper::Names::Dumper(@_));
+    local $Data::Dumper::Names::UpLevel = $Data::Dumper::Names::UpLevel + 2;
+    $diag->(Data::Dumper::Names::Dumper(@_));
 }
 
 sub die_on_fail {
