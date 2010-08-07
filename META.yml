@@ -4,7 +4,7 @@ author:
   - "Curtis \"Ovid\" Poe <ovid@cpan.org>"
 configure_requires:
   Module::Build: 0.36
-generated_by: 'Module::Build version 0.3601'
+generated_by: 'Module::Build version 0.3607'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
