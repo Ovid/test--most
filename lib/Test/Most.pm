@@ -304,6 +304,15 @@ See
 L<https://rt.cpan.org/Ticket/Display.html?id=54362&results=e73ff63c5bf9ba0f796efdba5773cf3f>
 for more information.
 
+=head2 Excluding Test Symbols
+
+Sometimes you don't want to exclude an entire test module, but just a
+particular symbol that is causing issues (e.g. see the 'blessed' example
+above). You can exclude the symbol(s) in the standard way, by specifying the
+symbol in the import list with a '!' in front:
+
+    use Test::Most tests => 42, '!blessed';
+
 =head2 Deferred plans
 
 B<DEPRECATED>.  Use C<done_testing()> from L<Test::More> instead.
@@ -433,6 +442,8 @@ sub import {
             last;
         }
     }
+
+    my @exclude_symbols;
     my $i = 0;
     while ($i < @_) {
         if ( !$bail_set and ( 'die' eq $_[$i] ) ) {
@@ -452,6 +463,12 @@ sub import {
             $i = 0;
             next;
         }
+        if ( $_[$i] =~ /^!(.*)/ ) {
+            splice @_, $i, 1;
+            push @exclude_symbols => $1;
+            $i = 0;
+            next;
+        }
         if ( 'defer_plan' eq $_[$i] ) {
             splice @_, $i, 1;
 
@@ -466,13 +483,24 @@ sub import {
         $i++;
     }
     foreach my $module (keys %modules_to_load) {
-        eval "use $module";
-        no strict 'refs';
-        push @EXPORT => @{"${module}::EXPORT"};
+        # some Test modules we use are naughty and don't use Exporter.
+        # See RT#61145.
+        if ($module->isa('Exporter')) {
+            my $exclude_symbols = 'qw(' . join(' ', map { '!' . $_ } @exclude_symbols)  . ')';
+            eval "require $module; import $module $exclude_symbols;";
+        } else {
+            eval "use $module";
+        }
+
         if ( my $error = $@) {
             require Carp;
             Carp::croak($error);
         }
+        no strict 'refs';
+        my %count;
+        $count{$_}++ foreach @{"${module}::EXPORT"}, @exclude_symbols;
+        # Note: export_to_level would be better here.
+        push @EXPORT => grep { $count{$_} == 1 } @{"${module}::EXPORT"};
     }
 
     # 'magic' goto to avoid updating the callstack
