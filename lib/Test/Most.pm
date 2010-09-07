@@ -288,7 +288,7 @@ failure.
 
 =head1 MISCELLANEOUS
 
-=head1 Excluding Test Modules
+=head2 Excluding Test Modules
 
 Sometimes you want a exclude a particular test module.  For example,
 L<Test::Deep>, when used with L<Moose>, produces the following warning:
