@@ -13,6 +13,7 @@ t/env_bail.t
 t/env_die.t
 t/exception.t
 t/exclude_test_modules.t
+t/exclude_test_symbols.t
 t/explain.t
 t/function_bail.t
 t/function_die.t

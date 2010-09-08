@@ -13,10 +13,10 @@ name: Test-Most
 provides:
   Test::Most:
     file: lib/Test/Most.pm
-    version: 0.22
+    version: 0.23
   Test::Most::Exception:
     file: lib/Test/Most/Exception.pm
-    version: 0.22
+    version: 0.23
 recommends:
   Data::Dumper::Names: 0.03
 requires:
@@ -31,4 +31,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/Ovid/test--most
-version: 0.22
+version: 0.23

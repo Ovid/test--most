@@ -1,5 +1,6 @@
 Revision history for Test::Most
 
+0.23    2010-09-08
         - added "Excluding Test Symbols" feature (RT#61146, Karen Etheridge).
 
 0.22    2010-08-07
