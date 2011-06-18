@@ -13,22 +13,22 @@ name: Test-Most
 provides:
   Test::Most:
     file: lib/Test/Most.pm
-    version: 0.23
+    version: 0.24
   Test::Most::Exception:
     file: lib/Test/Most/Exception.pm
-    version: 0.23
+    version: 0.24
 recommends:
   Data::Dumper::Names: 0.03
 requires:
   Exception::Class: 1.14
   Test::Deep: 0.106
-  Test::Differences: 0.500
-  Test::Exception: 0.29
-  Test::Harness: 3.07
+  Test::Differences: 0.61
+  Test::Exception: 0.31
+  Test::Harness: 3.21
   Test::More: 0.88
-  Test::Warn: 0.11
+  Test::Warn: 0.23
   perl: 5.006
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/Ovid/test--most
-version: 0.23
+version: 0.24

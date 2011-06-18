@@ -1,5 +1,9 @@
 Revision history for Test::Most
 
+0.24    2011-06-18
+        - Update dependencies to pick up multiple bug fixes, new behaviours,
+          in various Test:: libraries.
+
 0.23    2010-09-08
         - added "Excluding Test Symbols" feature (RT#61146, Karen Etheridge).
 

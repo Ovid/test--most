@@ -10,11 +10,11 @@ my $builder = Module::Build->new(
     requires          => {
         'Exception::Class'  => '1.14',
         'Test::More'        => '0.88',
-        'Test::Exception'   => '0.29',
-        'Test::Differences' => '0.500',
+        'Test::Exception'   => '0.31',
+        'Test::Differences' => '0.61',
         'Test::Deep'        => '0.106',
-        'Test::Harness'     => '3.07',
-        'Test::Warn'        => '0.11',
+        'Test::Harness'     => '3.21',
+        'Test::Warn'        => '0.23',
         'perl'              => '5.006',
     },
     meta_merge =>

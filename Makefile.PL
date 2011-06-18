@@ -3,19 +3,19 @@ require 5.006;
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'NAME' => 'Test::Most',
-          'VERSION_FROM' => 'lib/Test/Most.pm',
-          'PREREQ_PM' => {
-                           'Exception::Class' => '1.14',
-                           'Test::Deep' => '0.106',
-                           'Test::Differences' => '0.500',
-                           'Test::Exception' => '0.29',
-                           'Test::Harness' => '3.07',
-                           'Test::More' => '0.88',
-                           'Test::Warn' => '0.11'
-                         },
-          'INSTALLDIRS' => 'site',
-          'EXE_FILES' => [],
-          'PL_FILES' => {}
-        )
+  'PL_FILES' => {},
+  'INSTALLDIRS' => 'site',
+  'NAME' => 'Test::Most',
+  'EXE_FILES' => [],
+  'VERSION_FROM' => 'lib/Test/Most.pm',
+  'PREREQ_PM' => {
+                   'Test::Harness' => '3.21',
+                   'Test::Exception' => '0.31',
+                   'Exception::Class' => '1.14',
+                   'Test::More' => '0.88',
+                   'Test::Differences' => '0.61',
+                   'Test::Warn' => '0.23',
+                   'Test::Deep' => '0.106'
+                 }
+)
 ;
