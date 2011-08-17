@@ -8,6 +8,7 @@ use Test::Most::Exception 'throw_failure';
 # XXX don't use 'base' as it can override signal handlers
 use Test::Builder::Module;
 our ( @ISA, @EXPORT, $DATA_DUMPER_NAMES_INSTALLED );
+my $HAVE_TIME_HIRES;
 
 BEGIN {
 
@@ -16,6 +17,8 @@ BEGIN {
     require Test::More;
     @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
     Test::More->import;
+    eval "use Time::HiRes";
+    $HAVE_TIME_HIRES = 1 unless @_;
 }
 
 use Test::Builder;
@@ -30,11 +33,11 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.24
+Version 0.25
 
 =cut
 
-our $VERSION = '0.24';
+our $VERSION = '0.25';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -247,6 +250,32 @@ I<pass> with C<no_plan> but fails with C<all_done>.
 
 See L<Deferred plans> for more information.
 
+=head1 EXPORT ON DEMAND
+
+The following will be exported only if requested:
+
+=head2 C<timeit>
+
+Prototype: C<timeit(&;$)>
+
+This function will warn if C<Time::HiRes> is not installed. The test will
+still be run, but no timing information will be displayed.
+
+ use Test::Most 'timeit';
+ timeit { is expensive_function(), $some_value, $message }
+    "expensive_function()";
+ timeit { is expensive_function(), $some_value, $message };
+
+C<timeit> accepts a code reference and an optional message. After the test is
+run, will C<explain> the time of the function using C<Time::HiRes>. If a
+message is supplied, it will be formatted as:
+
+  sprintf "$message: took %s seconds" => $time;
+
+Otherwise, it will be formatted as:
+
+  sprintf "$filename line $line: took %s seconds" => $time;
+
 =head1 DIE OR BAIL ON FAIL
 
 Sometimes you want your test suite to throw an exception or BAIL_OUT() if a
@@ -265,7 +294,7 @@ will restore the original behavior (not throwing an exception or bailing out).
 
 =head2 Functions
 
- use Test::Most 'no_plan;
+ use Test::Most 'no_plan';
  ok $bar, 'The test suite will continue if this passes';
 
  die_on_fail;
@@ -340,7 +369,7 @@ so before any tests have run.  This fixes that problem.
 We generally require the latest stable versions of various test modules.  Why?
 Because they have bug fixes and new features.  You don't want to have to keep
 remembering them, so periodically we'll release new versions of L<Test::Most>
-just for bug 
+just for bug fixes.
 
 =head2 C<use ok>
 
@@ -442,6 +471,15 @@ sub import {
             last;
         }
     }
+    my $caller = caller;
+    for my $i ( 0 .. $#_ ) {
+        if ( 'timeit' eq $_[$i] ) {
+            splice @_, $i, 1;
+            no strict;
+            *{"${caller}::timeit"} = \&timeit;
+            last;
+        }
+    }
 
     my @exclude_symbols;
     my $i = 0;
@@ -509,6 +547,23 @@ sub import {
 
 sub explain {
     _explain(\&Test::More::note, @_);
+}
+
+
+sub timeit(&;$) {
+    my ( $code, $message ) = @_;
+    unless($HAVE_TIME_HIRES) {
+        Test::Most::diag("timeit: Time::HiRes not installed");
+        $code->();
+    }
+    if ( !$message ) {
+        my ( $package, $filename, $line ) = caller;
+        $message = "$filename line $line";
+    }
+    my $start = [Time::HiRes::gettimeofday()];
+    $code->();
+    explain(
+        sprintf "$message: took %s seconds" => Time::HiRes::tv_interval($start) );
 }
 
 sub always_explain {

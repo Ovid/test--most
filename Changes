@@ -1,5 +1,8 @@
 Revision history for Test::Most
 
+0.25    2011-08-17
+        - Add timeit() function to time individual behaviours.
+
 0.24    2011-06-18
         - Update dependencies to pick up multiple bug fixes, new behaviours,
           in various Test:: libraries.
