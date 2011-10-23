@@ -20,6 +20,7 @@ provides:
 recommends:
   Data::Dumper::Names: 0.03
 requires:
+  Carp::Always: 0.10
   Exception::Class: 1.14
   Test::Deep: 0.106
   Test::Differences: 0.61

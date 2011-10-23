@@ -2,7 +2,7 @@ package Test::Most;
 
 use warnings;
 use strict;
-
+use Carp::Always;
 use Test::Most::Exception 'throw_failure';
 
 # XXX don't use 'base' as it can override signal handlers
