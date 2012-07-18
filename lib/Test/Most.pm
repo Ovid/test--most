@@ -598,7 +598,8 @@ sub always_show {
 
 sub _show {
     unless ( $DATA_DUMPER_NAMES_INSTALLED ) {
-        warn "Data::Dumper::Names 0.03 not found.  Use explain() instead of show()";
+        require Carp;
+	Carp::carp("Data::Dumper::Names 0.03 not found.  Use explain() instead of show()");
         goto &_explain;
     }
     my $diag = shift;
