@@ -18,7 +18,7 @@ BEGIN {
     @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
     Test::More->import;
     eval "use Time::HiRes";
-    $HAVE_TIME_HIRES = 1 unless @_;
+    $HAVE_TIME_HIRES = 1 unless $@;
 }
 
 use Test::Builder;
