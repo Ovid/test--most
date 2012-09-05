@@ -1,0 +1,11 @@
+MANIFEST
+MANIFEST*.bak
+Makefile.PL
+META.yml
+META.json
+Build
+_build
+blib
+MYMETA.json
+MYMETA.yml
+Test-Most-*
