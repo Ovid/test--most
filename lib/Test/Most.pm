@@ -33,11 +33,11 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.30
+Version 0.31
 
 =cut
 
-our $VERSION = '0.30';
+our $VERSION = '0.31';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -494,14 +494,14 @@ sub import {
         }
     }
 
-    my @exclude_symbols;
+    my %exclude_symbol;
     my $i = 0;
 
     if ( grep { $_ eq 'blessed' } @_ ) {
         @_ = grep { $_ ne 'blessed' } @_;
     }
     else {
-        push @exclude_symbols => 'blessed';
+        $exclude_symbol{blessed} = 1;
     }
     while ($i < @_) {
         if ( !$bail_set and ( 'die' eq $_[$i] ) ) {
@@ -523,7 +523,7 @@ sub import {
         }
         if ( $_[$i] =~ /^!(.*)/ ) {
             splice @_, $i, 1;
-            push @exclude_symbols => $1;
+            $exclude_symbol{$1} = 1;
             $i = 0;
             next;
         }
@@ -541,24 +541,15 @@ sub import {
         $i++;
     }
     foreach my $module (keys %modules_to_load) {
-        # some Test modules we use are naughty and don't use Exporter.
-        # See RT#61145.
-        if ($module->isa('Exporter')) {
-            my $exclude_symbols = 'qw(' . join(' ', map { '!' . $_ } @exclude_symbols)  . ')';
-            eval "require $module; import $module $exclude_symbols;";
-        } else {
-            eval "use $module";
-        }
+        eval "use $module";
 
         if ( my $error = $@) {
             require Carp;
             Carp::croak($error);
         }
         no strict 'refs';
-        my %count;
-        $count{$_}++ foreach @{"${module}::EXPORT"}, @exclude_symbols;
         # Note: export_to_level would be better here.
-        push @EXPORT => grep { $count{$_} == 1 } @{"${module}::EXPORT"};
+        push @EXPORT => grep { !$exclude_symbol{$_} } @{"${module}::EXPORT"};
     }
 
     # 'magic' goto to avoid updating the callstack
