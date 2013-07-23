@@ -143,7 +143,7 @@ longer throw an exception or BAIL_OUT().
 
 =head2 C<set_failure_handler>
 
-If you prefer other behavior to 'die_on_fail' or 'bail_on_fail', you can can
+If you prefer other behavior to 'die_on_fail' or 'bail_on_fail', you can
 set your own failure handler:
 
  set_failure_handler( sub {
@@ -325,7 +325,7 @@ It used to be that this module would produce a warning when used with Moose:
 
 This was because L<Test::Deep> exported a C<blessed()> function by default,
 but its prototype did not match the L<Moose> version's prototype. We now
-excluse the L<Test::Deep> version by default. If you need it, you can call the
+exclude the L<Test::Deep> version by default. If you need it, you can call the
 fully-qualified version or request it on the command line:
 
     use Test::Most 'blessed';
@@ -776,7 +776,7 @@ Because of how Perl handles arguments, and because diagnostics are not really
 part of the Test Anything Protocol, what actually happens internally is that
 we note that a test has failed and we throw an exception or bail out as soon
 as the I<next> test is called (but before it runs).  This means that its
-arguments are automatically evaulated before we can take action:
+arguments are automatically evaluated before we can take action:
 
  use Test::Most qw<no_plan die>;
 
