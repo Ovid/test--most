@@ -1,5 +1,8 @@
 Revision history for Test::Most
 
+0.33    2013-01-12
+        - Oops. Uploaded a bad .tar.gz
+
 0.32    2013-01-12
         - Fixed "(in cleanup) Can't use an undefined value as a subroutine
           reference" error.
