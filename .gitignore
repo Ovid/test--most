@@ -1,6 +1,5 @@
 MANIFEST
 MANIFEST*.bak
-Makefile.PL
 META.yml
 META.json
 Build
