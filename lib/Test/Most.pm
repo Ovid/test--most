@@ -33,11 +33,11 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.31
+Version 0.32
 
 =cut
 
-our $VERSION = '0.31';
+our $VERSION = '0.32';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -670,7 +670,7 @@ sub set_failure_handler {
     sub Test::Builder::DESTROY {
         my $builder = $_[0];
         if ( $builder->{TEST_MOST_test_failed} ) {
-            $builder->{TEST_MOST_failure_action}->();
+            ( $builder->{TEST_MOST_failure_action} || sub {} )->();
         }
     }
 }

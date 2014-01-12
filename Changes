@@ -1,5 +1,9 @@
 Revision history for Test::Most
 
+0.32    2013-01-12
+        - Fixed "(in cleanup) Can't use an undefined value as a subroutine
+          reference" error.
+
 0.31    2012-09-06
         - Fix "You tried to plan twice" bug (reported on #78564)
 
