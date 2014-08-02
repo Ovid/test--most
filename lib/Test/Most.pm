@@ -446,9 +446,10 @@ BEGIN {
     @ISA    = qw(Test::Builder::Module);
     @EXPORT = (
         Test::More->can('TB_PROVIDER_META')
-            ? keys( %{Test::More->TB_PROVIDER_META->{attrs}})
+            ? grep { $_ ne 'TODO' } keys( %{Test::More->TB_PROVIDER_META->{attrs}})
             : @Test::More::EXPORT,
         qw<
+            $TODO
             all_done
             bail_on_fail
             die_on_fail
