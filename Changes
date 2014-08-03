@@ -2,6 +2,12 @@ Revision history for Test::Most
 
 0.34
         - Make compatible with the new Test::Builder (exodist - Chad Granum)
+        - Backwards-incompatible change: reftype no longer exported by
+          default. See https://github.com/Ovid/test--most/issues/6 (reported
+          by rjattril). This should not be noticed by most users
+          (crosses-fingers).
+        - defer_plan() has long been deprecated and will be removed in a
+          future release. This release carp()s if you try to call it.
 
 0.33    2013-01-12
         - Oops. Uploaded a bad .tar.gz
