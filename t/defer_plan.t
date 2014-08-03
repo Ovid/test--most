@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+BEGIN { $ENV{DO_NOT_WARN_ON_DEFER_PLAN} = 1 }
 use lib 'lib', 't/lib';
 use Test::Most qw<defer_plan>;
 

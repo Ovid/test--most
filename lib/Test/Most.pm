@@ -506,12 +506,15 @@ sub import {
     my %exclude_symbol;
     my $i = 0;
 
-    if ( grep { $_ eq 'blessed' } @_ ) {
-        @_ = grep { $_ ne 'blessed' } @_;
+    foreach my $do_not_import_by_default (qw/blessed reftype/) {
+        if ( grep { $_ eq $do_not_import_by_default } @_ ) {
+            @_ = grep { $_ ne $do_not_import_by_default } @_;
+        }
+        else {
+            $exclude_symbol{$do_not_import_by_default} = 1;
+        }
     }
-    else {
-        $exclude_symbol{blessed} = 1;
-    }
+
     while ($i < @_) {
         if ( !$bail_set and ( 'die' eq $_[$i] ) ) {
             splice @_, $i, 1;

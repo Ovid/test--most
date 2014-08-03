@@ -1,5 +1,8 @@
 Revision history for Test::Most
 
+0.34
+        - Make compatible with the new Test::Builder (exodist - Chad Granum)
+
 0.33    2013-01-12
         - Oops. Uploaded a bad .tar.gz
 
