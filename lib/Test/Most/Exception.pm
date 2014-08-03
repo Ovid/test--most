@@ -6,6 +6,18 @@ use strict;
 use base 'Exporter';
 our @EXPORT_OK = ('throw_failure');
 
+our $VERSION = '0.34';
+$VERSION = eval $VERSION;
+
+use Exception::Class 'Test::Most::Exception' => {
+    alias       => 'throw_failure',
+    description => 'Test failed.  Stopping test.',
+};
+
+1;
+
+__END__
+
 =head1 NAME
 
 Test::Most::Exception - Internal exception class
@@ -13,11 +25,6 @@ Test::Most::Exception - Internal exception class
 =head1 VERSION
 
 Version 0.34
-
-=cut
-
-our $VERSION = '0.34';
-$VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
 
@@ -32,13 +39,6 @@ We export only one function:
 This is the exception for C<die_on_fail>.
 
 =cut
-
-use Exception::Class 'Test::Most::Exception' => {
-    alias       => 'throw_failure',
-    description => 'Test failed.  Stopping test.',
-};
-
-1;
 
 =head1 AUTHOR
 
