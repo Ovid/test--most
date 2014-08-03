@@ -540,11 +540,19 @@ sub import {
             next;
         }
         if ( 'defer_plan' eq $_[$i] ) {
+            require Carp;
+            Carp::carp(<<'END') unless $ENV{DO_NOT_WARN_ON_DEFER_PLAN};
+defer_plan() is deprecated and will be removed in a future release of
+Test::Most. It's functionality is provided by Test::More's done_testing(),
+first added in 2009 (0.88).
+END
             splice @_, $i, 1;
 
             my $builder = Test::Builder->new;
-            $builder->{Have_Plan} = 1
-              ; # don't like setting this directly, but Test::Builder::has_plan doe
+
+            # XXX I don't like setting this directly, but
+            # Test::Builder::has_plan isn't public
+            $builder->{Have_Plan}               = 1;
             $builder->{TEST_MOST_deferred_plan} = 1;
             $builder->{TEST_MOST_all_done}      = 0;
             $i = 0;
