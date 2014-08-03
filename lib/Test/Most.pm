@@ -609,6 +609,10 @@ fully-qualified version or request it on the command line:
 
     use Test::Most 'blessed';
 
+Note that as of version C<0.34>, C<reftype> is also excluded from
+C<Test::Deep>'s import list. This was causing issues with people trying to use
+C<Scalar::Util>'s C<reftype> function.
+
 =head2 Excluding Test Modules
 
 Sometimes you want a exclude a particular test module.  For example,
@@ -628,15 +632,16 @@ for more information.
 =head2 Excluding Test Symbols
 
 Sometimes you don't want to exclude an entire test module, but just a
-particular symbol that is causing issues (e.g. see the 'blessed' example
-above). You can exclude the symbol(s) in the standard way, by specifying the
-symbol in the import list with a '!' in front:
+particular symbol that is causing issues You can exclude the symbol(s) in the
+standard way, by specifying the symbol in the import list with a '!' in front:
 
-    use Test::Most tests => 42, '!blessed';
+    use Test::Most tests => 42, '!throws_ok';
 
 =head2 Deferred plans
 
-B<DEPRECATED>.  Use C<done_testing()> from L<Test::More> instead.
+B<DEPRECATED> and will be removed in some future release of this module.
+Using C<defer_plan> will C<carp()>. Use C<done_testing()> from L<Test::More>
+instead.
 
  use Test::Most qw<defer_plan>;
  use My::Tests;
