@@ -12,11 +12,17 @@ my $HAVE_TIME_HIRES;
 
 BEGIN {
 
-    # There's some strange fiddling around with import(), so this allows us to
-    # be nicely backwards compatible to earlier versions of Test::More.
     require Test::More;
-    @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
-    Test::More->import;
+    if (Test::More->can('TB_PROVIDER_META')) {
+        Test::More->import(import => [ '!explain' ]);
+    }
+    else {
+        # There's some strange fiddling around with import(), so this allows us to
+        # be nicely backwards compatible to earlier versions of Test::More.
+        @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
+        Test::More->import;
+    }
+
     eval "use Time::HiRes";
     $HAVE_TIME_HIRES = 1 unless $@;
 }
@@ -439,8 +445,11 @@ it's a great and useful module.
 BEGIN {
     @ISA    = qw(Test::Builder::Module);
     @EXPORT = (
-        @Test::More::EXPORT, 
+        Test::More->can('TB_PROVIDER_META')
+            ? grep { $_ ne 'TODO' } keys( %{Test::More->TB_PROVIDER_META->{attrs}})
+            : @Test::More::EXPORT,
         qw<
+            $TODO
             all_done
             bail_on_fail
             die_on_fail
