@@ -1,5 +1,8 @@
 Revision history for Test::Most
 
+0.35    ????-??-??
+        - Stop permanently altering Test::More's export list (RT#73299)
+
 0.34    2014-08-03
         - Make compatible with the new Test::Builder (exodist - Chad Granum)
         - Backwards-incompatible change: reftype no longer exported by
