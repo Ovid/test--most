@@ -6,7 +6,7 @@ use strict;
 use base 'Exporter';
 our @EXPORT_OK = ('throw_failure');
 
-our $VERSION = '0.34';
+our $VERSION = '0.35';
 $VERSION = eval $VERSION;
 
 use Exception::Class 'Test::Most::Exception' => {

@@ -5,12 +5,12 @@ WriteMakefile(
     'VERSION_FROM' => 'lib/Test/Most.pm',
     'PREREQ_PM'    => {
         'Exception::Class'  => '1.14',
-        'Test::Deep'        => '0.106',
-        'Test::Differences' => '0.61',
-        'Test::Exception'   => '0.31',
-        'Test::Harness'     => '3.21',
-        'Test::More'        => '0.88',
-        'Test::Warn'        => '0.23'
+        'Test::Deep'        => '0.119',
+        'Test::Differences' => '0.64',
+        'Test::Exception'   => '0.43',
+        'Test::Harness'     => '3.35',
+        'Test::More'        => '1.302047',
+        'Test::Warn'        => '0.30'
     },
     'INSTALLDIRS' => 'site',
     'EXE_FILES'   => [],
