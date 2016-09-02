@@ -154,6 +154,7 @@ END
         }
         $i++;
     }
+    local @EXPORT = @EXPORT; # localize effect of %exclude_symbol
     foreach my $module (keys %modules_to_load) {
         eval "use $module";
 
