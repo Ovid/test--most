@@ -33,7 +33,7 @@ BEGIN {
     $OK_FUNC = \&Test::Builder::ok;
 }
 
-our $VERSION = '0.35';
+our $VERSION = '0.36';
 $VERSION = eval $VERSION;
 
 BEGIN {
