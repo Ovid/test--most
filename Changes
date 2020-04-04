@@ -1,5 +1,9 @@
 Revision history for Test::Most
 
+0.37    2020-04-04
+        - Don't call parent DESTROY method if it does not exist (thanks,
+          Karen)
+
 0.36    2020-04-04
         - Ensure Test::Builder's original DESTROY is called. Thanks to Karen
           Etheridge. https://github.com/Ovid/test--most/pull/10
