@@ -33,7 +33,7 @@ BEGIN {
     $OK_FUNC = \&Test::Builder::ok;
 }
 
-our $VERSION = '0.36';
+our $VERSION = '0.37';
 $VERSION = eval $VERSION;
 
 BEGIN {
@@ -287,7 +287,7 @@ sub set_failure_handler {
         if ( $builder->{TEST_MOST_test_failed} ) {
             ( $builder->{TEST_MOST_failure_action} || sub {} )->();
         }
-        $orig_destroy->(@_);
+        $orig_destroy->(@_) if $orig_destroy;
     };
 }
 
