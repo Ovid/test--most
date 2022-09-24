@@ -19,7 +19,7 @@ BEGIN {
     else {
         # There's some strange fiddling around with import(), so this allows us to
         # be nicely backwards compatible to earlier versions of Test::More.
-        @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
+        local @Test::More::EXPORT = grep { $_ ne 'explain' } @Test::More::EXPORT;
         Test::More->import;
     }
 
