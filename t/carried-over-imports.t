@@ -2,7 +2,18 @@ use strict;
 use warnings;
 
 use Carp qw(cluck);
-$SIG{__WARN__} = 'cluck';
+BEGIN {
+    $SIG{__WARN__} = sub {
+        cluck($_[0]); fail("unexpected warning: $_[0]");
+    }
+}
+
+use Exporter ();
+my $orig_import = Exporter->can('import');
+*Exporter::import = sub {
+    cluck("Exporter::import called\n");
+    goto $orig_import;
+};
 
 use lib 't/lib';
 use UsesTestMost;

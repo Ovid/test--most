@@ -1,3 +1,5 @@
+package UsesTestMost;
+
 use strict;
 use warnings;
 use Test::Most;
