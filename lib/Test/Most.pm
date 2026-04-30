@@ -59,7 +59,9 @@ BEGIN {
 }
 
 sub import {
+    my $class = shift;
     my $bail_set = 0;
+    local @EXPORT = @EXPORT; # localize effect of %exclude_symbol
 
     my %modules_to_load = map { $_ => 1 } qw/
         Test::Differences
@@ -163,12 +165,14 @@ END
             Carp::croak($error);
         }
         no strict 'refs';
-        # Note: export_to_level would be better here.
         push @EXPORT => grep { !$exclude_symbol{$_} } @{"${module}::EXPORT"};
     }
 
-    # 'magic' goto to avoid updating the callstack
-    goto &Test::Builder::Module::import;
+    my $test = $class->builder;
+    $test->exported_to($caller);
+    $test->plan(@_);
+
+    $class->export_to_level(1, $class, @EXPORT);
 }
 
 sub explain {
