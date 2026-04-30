@@ -27,3 +27,5 @@ t/lib/OurTester.pm
 t/timex.t
 xt/author/pod-coverage.t
 xt/author/pod.t
+t/carried-over-imports.t
+t/lib/UsesTestMost.pm

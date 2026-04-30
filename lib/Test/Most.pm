@@ -33,7 +33,7 @@ BEGIN {
     $OK_FUNC = \&Test::Builder::ok;
 }
 
-our $VERSION = '0.37';
+our $VERSION = '0.39';
 $VERSION = eval $VERSION;
 
 BEGIN {
@@ -829,7 +829,9 @@ better implementation of my "dumper explain" idea
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 Curtis Poe, all rights reserved.
+originally Copyright 2008 Curtis Poe
+
+now maintained by David Cantrell, his changes Copyright 2026
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
