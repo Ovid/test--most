@@ -6,9 +6,6 @@ use strict;
 use base 'Exporter';
 our @EXPORT_OK = ('throw_failure');
 
-our $VERSION = '0.37';
-$VERSION = eval $VERSION;
-
 use Exception::Class 'Test::Most::Exception' => {
     alias       => 'throw_failure',
     description => 'Test failed.  Stopping test.',
@@ -21,10 +18,6 @@ __END__
 =head1 NAME
 
 Test::Most::Exception - Internal exception class
-
-=head1 VERSION
-
-Version 0.34
 
 =head1 SYNOPSIS
 

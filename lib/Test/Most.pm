@@ -33,7 +33,7 @@ BEGIN {
     $OK_FUNC = \&Test::Builder::ok;
 }
 
-our $VERSION = '0.39';
+our $VERSION = '0.40';
 $VERSION = eval $VERSION;
 
 BEGIN {
@@ -324,7 +324,7 @@ Test::Most - Most commonly needed test functions and features.
 
 =head1 VERSION
 
-Version 0.34
+Version 0.40
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,11 @@
 Revision history for Test::Most
 
+0.40    2026-04-30
+
+        - Test::Most::Exception didn't get indexed last time because I forgot
+          to bump the version. It doesn't need a version at all, so get rid of
+          it to avoid this happening again.
+
 0.39    2026-04-30
 
         - prevent strange import behaviour caused by @EXPORT twiddling
