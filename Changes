@@ -1,14 +1,21 @@
 Revision history for Test::Most
 
+0.41    2026-04-30
+
+        - No functional changes
+        - ANOTHER book-keeping fix. Once a module has been indexed it needs
+          to always have a version number. Grargh!
+
 0.40    2026-04-30
 
+        - No functional changes
         - Test::Most::Exception didn't get indexed last time because I forgot
           to bump the version. It doesn't need a version at all, so get rid of
           it to avoid this happening again.
 
 0.39    2026-04-30
 
-        - prevent strange import behaviour caused by @EXPORT twiddling
+        - Bugfix: prevent strange import behaviour caused by @EXPORT twiddling
           see @dmaestro's patch f436edb and also later 7d20ddb
 
 0.38    2022-09-24
