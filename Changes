@@ -1,5 +1,14 @@
 Revision history for Test::Most
 
+0.42    [pending]
+
+        - Bugfix: restore support for `use Test::Most import => [...]` to
+          select which symbols to export. The 0.39 export rework caused
+          this idiom to fall through to plan(), which died with
+          "plan() doesn't understand import ARRAY(...)". `import => []`
+          falls through to the default exports, matching Test::Builder::Module
+          and pre-0.39 behaviour. (GH#18)
+
 0.41    2026-04-30
 
         - No functional changes

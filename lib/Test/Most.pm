@@ -102,9 +102,31 @@ sub import {
     my %exclude_symbol;
     my $i = 0;
 
+    # Pull out `import => [...]` so it doesn't fall through to plan(), which
+    # doesn't understand it. The list drives export_to_level below.
+    #
+    # The while-with-index loop is intentional: we mutate @_ via splice as
+    # we go, and this matches the existing parser further down the sub.
+    my @explicit;
+    while ( $i < @_ ) {
+        if ( $_[$i] eq 'import' && ref $_[ $i + 1 ] eq 'ARRAY' ) {
+            @explicit = @{ ( splice @_, $i, 2 )[1] };
+            last;
+        }
+        $i++;
+    }
+    $i = 0;
+
     foreach my $do_not_import_by_default (qw/blessed reftype/) {
-        if ( grep { $_ eq $do_not_import_by_default } @_ ) {
+        if ( grep { $_ eq $do_not_import_by_default } @_, @explicit ) {
             @_ = grep { $_ ne $do_not_import_by_default } @_;
+            # If the user opted in positionally AND used import => [...],
+            # the explicit list is the export source — make sure the symbol
+            # is in it, or it would be silently dropped.
+            if ( @explicit
+                && !grep { $_ eq $do_not_import_by_default } @explicit ) {
+                push @explicit, $do_not_import_by_default;
+            }
         }
         else {
             $exclude_symbol{$do_not_import_by_default} = 1;
@@ -172,7 +194,14 @@ END
     $test->exported_to($caller);
     $test->plan(@_);
 
-    $class->export_to_level(1, $class, @EXPORT);
+    # Empty @explicit covers two cases that should both fall through to the
+    # default exports: no `import =>` was given, or `import => []` was given
+    # (which matches Test::Builder::Module / Exporter, where an empty import
+    # list means "use defaults"). When @explicit has items but `!sym`
+    # exclusions empty it out, @to_export is empty and we export nothing.
+    my @to_export
+        = @explicit ? grep { !$exclude_symbol{$_} } @explicit : @EXPORT;
+    $class->export_to_level( 1, $class, @to_export ) if @to_export;
 }
 
 sub explain {
